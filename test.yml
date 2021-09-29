@@ -1,0 +1,53 @@
+- name: Test Folders
+  hosts: localhost
+
+  vars:
+
+    share_path: "\\\\winmem01.mathodemos.com\\RailLogs\\2021-09-28"
+
+    file_list_summary:
+      - path: \\winmem01.mathodemos.com\RailLogs\2021-09-28\CAPTURES\LAN-CAP-01
+        files:
+          - type: .pdf
+            qty: 1
+          - type: .txt
+            qty: 2
+      - path: \\winmem01.mathodemos.com\RailLogs\2021-09-28\CAPTURES\LAN-CAP-02
+        files:
+          - type: .doc
+            qty: 1
+      - path: \\winmem01.mathodemos.com\RailLogs\2021-09-28\OBU\1001\CCTE1
+        files:
+          - type: .txt
+            qty: 2
+      - path: \\winmem01.mathodemos.com\RailLogs\2021-09-28\OBU\1001\CCTE2
+        files:
+      - path: \\winmem01.mathodemos.com\RailLogs\2021-09-28\OBU\1001\ORIGINAL
+        files:
+      - path: \\winmem01.mathodemos.com\RailLogs\2021-09-28\TETRA\NMS
+        files:
+          - type: .txt
+            qty: 1
+        
+        
+  
+  tasks:
+
+    - name: generate html report
+      copy: 
+        content: "{{ lookup('template', 'templates/test.html.j2') }}" 
+        dest: ./final_report.html
+
+    - name: Folder Check Report
+      mail:
+        host: "mail.aussiebroadband.com.au"
+        port: "25"
+        from: "andrew.matheson@aussiebroadband.com.au"
+        to: "andrew.matheson@aussiebroadband.com.au" 
+        subject: "test"
+        subtype: html
+        username: andrew.matheson@aussiebroadband.com.au
+        password: "{{ email_pass }}"
+        body: "{{ lookup('file', 'final_report.html') }}"
+      when: automation_task == 'folder_check'  
+

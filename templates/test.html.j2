@@ -1,0 +1,36 @@
+<html>
+<body>
+
+    <table width="100%" border="1" cellspacing="0" cellpadding="0">
+        <tbody>      
+            
+            {% for folders in file_list_summary %}
+                <tr>
+                <td colspan="2">Path: {{ folders.path }}<td>
+                </tr>
+
+                    FOLDERS.FILES = {{ folders.files }}
+
+
+                    {% for file_types in folders.files %}
+                        <tr>
+                            <td>TYPE:</td> 
+                            <td>{{ file_types.type }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>QTY:</td>{
+                            <td>{{ file_types.qty }}</td>
+                        </tr>
+                   {% endfor %}
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+    
+</body>
+</html>
+    
+
+
